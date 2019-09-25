@@ -1,0 +1,73 @@
+public class Encryption extends Grid{
+	private String plaintext;
+	private int columns;
+	
+	public Encryption(String keyword, String plaintext)
+	{
+		super(keyword, noPunc(plaintext));
+		this.plaintext = noPunc(plaintext);
+		columns = configureGrid(getText());
+		Encrypt();
+	}
+	
+	public static String noPunc(String text)
+	{
+		String s = "";
+		for (char c : text.toCharArray())
+		{
+			if (Character.isLetterOrDigit(c))
+			{
+				s += c;
+			}
+		}
+		return s.toLowerCase();
+	}
+	
+	
+	public void Encrypt()
+	{
+		char[][] grid = getGrid();
+		int index = 0;
+		for (int i = 2; i < grid.length; i++)
+		{
+			for (int j = 0; j < grid[0].length; j++)
+			{
+				if (index < plaintext.length())
+				{
+					grid[i][j] = plaintext.charAt(index);
+					index++;
+				}
+				else
+					grid[i][j] = 'x';
+			}
+		}
+	}
+	
+	public String getCiphertext()
+	{
+		String s = "";
+		char[][] grid = getGrid();
+		
+		
+		int index = grid[0].length - 1;
+		while (grid[grid.length-1][index] == 'x')
+		{
+			index--;
+		}
+		
+		for (int i = 1; i <= columns; i++)
+		{
+			for (int k = 2; k < grid.length; k++)
+			{
+				for (int j = 0; j < grid[0].length; j++)
+				{
+					if (grid[1][j] == '0' + i)
+					{
+						s += grid[k][j];
+					}
+				}
+			}
+		}
+		return s;
+	}
+}
